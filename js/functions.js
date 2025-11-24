@@ -28,8 +28,8 @@ function extractNumbers(str){
       result += char;
     }
   }
-  return result === parseInt(result, 10);
+  result = parseInt(result, 10);
+  return result;
 }
 
 extractNumbers('ECMAScript 2022');
-
