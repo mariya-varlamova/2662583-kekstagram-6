@@ -1,61 +1,30 @@
 import {getRandomArrayElement, getRandomInteger, createCommentId} from './util.js';
-
-const NAMES = [
-  'Иван',
-  'Дмитрий',
-  'Мария',
-  'Максим',
-  'Виктор',
-  'Юлия',
-  'Артём',
-  'Ксения',
-  'Александр',
-  'Матвей',
-  'Арина',
-];
-
-const MESSAGE = [
-  'Всё отлично!',
-  'В целом всё неплохо. Но не всё.',
-  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
-  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
-  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
-  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
-];
-
-const DESCRIPTIONS = [
-  'В семейном кругу',
-  'Наконец-то отпуск!',
-  'Вся красота мира в одном кадре',
-  'Невероятное место!',
-  'Уютный вечер',
-  'Новогодняя сказка',
-  'Мечты сбываются!',
-  'Сегодня на деловом',
-  'Вечер с друзьями',
-];
+import {NAMES, MESSAGES, DESCRIPTIONS} from './enum.js';
 
 const generateCommentId = createCommentId();
 
 const generateComment = () => {
   const countMessage = getRandomInteger(1,2);
+  const randomAvatar = getRandomInteger(1, 6);
+  const randomName = getRandomArrayElement(NAMES);
+
   let message = '';
   if (countMessage === 1){
-    message = getRandomArrayElement(MESSAGE);
+    message = getRandomArrayElement(MESSAGES);
   }
   else{
-    const firstMessage = getRandomArrayElement(MESSAGE);
-    let secondMessage = getRandomArrayElement(MESSAGE);
+    const firstMessage = getRandomArrayElement(MESSAGES);
+    let secondMessage = getRandomArrayElement(MESSAGES);
     while (secondMessage === firstMessage){
-      secondMessage = getRandomArrayElement(MESSAGE);
+      secondMessage = getRandomArrayElement(MESSAGES);
     }
     message = `${firstMessage} ${secondMessage}`;
   }
   return {
     id: generateCommentId(),
-    avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
+    avatar: `img/avatar-${randomAvatar}.svg`,
     message: message,
-    name: getRandomArrayElement(NAMES),
+    name: randomName,
   };
 };
 
@@ -64,14 +33,20 @@ const createComments = () => {
   return Array.from({length: countComments}, generateComment);
 };
 
-const createPhoto = (index) => ({
-  id: index + 1,
-  url: `photos/${index + 1}.jpg`,
-  description: getRandomArrayElement(DESCRIPTIONS),
-  likes: getRandomInteger(15, 200),
-  comments: createComments(),
-});
 
-const createPhotos = () => Array.from({length: 25}, (_, index) => createPhoto(index));
+const createPost = (index) => {
+  const randomDescription = getRandomArrayElement(DESCRIPTIONS);
+  const randomLikes = getRandomInteger(15, 200);
+  const comments = createComments();
+  return {
+    id: index + 1,
+    url: `photos/${index + 1}.jpg`,
+    description: randomDescription,
+    likes: randomLikes,
+    comments: comments,
+  };
+};
 
-export {createPhotos};
+const createPosts = () => Array.from({length: 25}, (_, index) => createPost(index));
+
+export {createPosts};
