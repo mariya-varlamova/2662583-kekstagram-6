@@ -1,10 +1,7 @@
 import {createPosts} from './data.js';
 
-const pictureTemplate =  document.querySelector('#picture').content;
-const pictures = document.querySelector('.pictures');
-
-
 const createThumbnail = (post) => {
+  const pictureTemplate =  document.querySelector('#picture').content;
   const thumbnail = pictureTemplate.cloneNode(true);
   const imgElement = thumbnail.querySelector('.picture__img');
   const commentsElement = thumbnail.querySelector('.picture__comments');
@@ -19,6 +16,7 @@ const createThumbnail = (post) => {
 };
 
 const renderThumbnails = () =>{
+  const pictures = document.querySelector('.pictures');
   const posts = createPosts();
   const fragment = document.createDocumentFragment();
 
