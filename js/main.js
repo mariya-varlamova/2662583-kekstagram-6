@@ -1,7 +1,6 @@
-import {renderThumbnails} from './thumbnail.js';
+import {initThumbnails} from './thumbnail.js';
 import {initForm} from './form.js';
-
-renderThumbnails();
 
 initForm();
 
+initThumbnails();
