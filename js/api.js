@@ -6,7 +6,7 @@ const getData = async () => {
     if (!response.ok) {
       throw new Error(ERROR_MESSAGES.GET);
     }
-    return await response.json();
+    return response.json();
   } catch (error) {
     throw new Error(ERROR_MESSAGES.GET);
   }
@@ -23,7 +23,7 @@ const sendData = async (formData) => {
       throw new Error(ERROR_MESSAGES.SEND);
     }
 
-    return await response.json();
+    return response.json();
   } catch (error) {
     throw new Error(ERROR_MESSAGES.SEND);
   }

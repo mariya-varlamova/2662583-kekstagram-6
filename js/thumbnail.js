@@ -25,56 +25,15 @@ const createThumbnail = (post) => {
 const showLoadError = () => {
   const errorAlert = document.createElement('div');
   errorAlert.className = 'data-load-error';
-  errorAlert.style.cssText = `
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 9999;
-    padding: 16px 24px;
-    background: linear-gradient(135deg, #ff6b6b, #ff4757);
-    color: white;
-    text-align: center;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 500;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    max-width: 90%;
-    width: 400px;
-  `;
 
   const errorText = document.createElement('span');
+  errorText.className = 'data-load-error__text';
   errorText.textContent = 'Ошибка загрузки фотографий. Обновите страницу.';
-  errorText.style.flex = '1';
 
   const closeButton = document.createElement('button');
+  closeButton.className = 'data-load-error__close-btn';
   closeButton.innerHTML = '&times;';
-  closeButton.style.cssText = `
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    color: white;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.3s;
-  `;
-
-  closeButton.addEventListener('mouseover', () => {
-    closeButton.style.background = 'rgba(255, 255, 255, 0.3)';
-  });
-
-  closeButton.addEventListener('mouseout', () => {
-    closeButton.style.background = 'rgba(255, 255, 255, 0.2)';
-  });
+  closeButton.type = 'button';
 
   closeButton.addEventListener('click', () => {
     errorAlert.remove();
