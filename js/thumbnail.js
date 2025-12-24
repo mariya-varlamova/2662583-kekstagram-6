@@ -1,5 +1,5 @@
-import {createPosts} from './data.js';
 import {openBigPicture} from './bigPicture.js';
+import {getData} from './api.js';
 
 const createThumbnail = (post) => {
   const pictureTemplate =  document.querySelector('#picture').content;
@@ -22,10 +22,35 @@ const createThumbnail = (post) => {
   return thumbnail;
 };
 
-const renderThumbnails = () =>{
+const showLoadError = () => {
+  const errorAlert = document.createElement('div');
+  errorAlert.className = 'data-load-error';
+
+  const errorText = document.createElement('span');
+  errorText.className = 'data-load-error__text';
+  errorText.textContent = 'Ошибка загрузки фотографий. Обновите страницу.';
+
+  const closeButton = document.createElement('button');
+  closeButton.className = 'data-load-error__close-btn';
+  closeButton.innerHTML = '&times;';
+  closeButton.type = 'button';
+
+  closeButton.addEventListener('click', () => {
+    errorAlert.remove();
+  });
+
+  errorAlert.appendChild(errorText);
+  errorAlert.appendChild(closeButton);
+  document.body.appendChild(errorAlert);
+
+};
+
+const renderThumbnails = (posts) =>{
   const pictures = document.querySelector('.pictures');
-  const posts = createPosts();
   const fragment = document.createDocumentFragment();
+
+  const existingPictures = pictures.querySelectorAll('.picture');
+  existingPictures.forEach((picture) => picture.remove());
 
   posts.forEach((post) =>{
     const thumbnail = createThumbnail(post);
@@ -35,4 +60,14 @@ const renderThumbnails = () =>{
   pictures.appendChild(fragment);
 };
 
-export {renderThumbnails};
+const initThumbnails = async () => {
+  try {
+    const posts = await getData();
+    renderThumbnails(posts);
+  } catch (error) {
+    showLoadError();
+  }
+};
+
+
+export {initThumbnails, renderThumbnails};
